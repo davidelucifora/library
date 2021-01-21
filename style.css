@@ -9,13 +9,13 @@
 
 }
 
+/*Basic Styling*/
 body{
     
     font-family: 'Yanone Kaffeesatz';
     background-color:rgb(255, 253, 245);
-    
 }
-
+    
 header{
     text-align:center;
 }
@@ -24,6 +24,14 @@ header > *{
     margin:0;
 }
 
+#container, #input-book, form, label, input{
+    display:flex;
+}
+
+
+#container{
+    flex-flow:column;
+}
 
 h1{
     font-family: 'Cardo';
@@ -31,25 +39,28 @@ h1{
     color:var(--tart-orange);
     font-size:3rem;
 }
+
 h2{
     font-size:1rem;
     font-size:1.5rem;
     color:var(--blue-sapphire);
     margin-bottom:2rem;
 }
+
 #container{
     height:90vh;
     margin:2rem 1rem;
 }
-label, form{
-    display:flex;
-}
 
+/*Toggle Switch Styling*/
 [type="checkbox"] {
-position: absolute;
+position: absolute;   
 left: -9999px;
 }
 
+.toggle-group{
+    width:80px;
+}
 
 .toggle{
     position:relative;
@@ -87,35 +98,18 @@ left: -9999px;
         transform:translateX(30px);
 
     }
-    
-    label{
-        margin:1rem 0.8rem;
+
+/*Form Styling*/
+label{
+        margin:0.5rem 0.8rem;
         font-size:1.5rem;
         color:var(--blue-sapphire);
     }
-    input{
+input{
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
         margin-top:0.4rem;
     }
-
-    
-
-/*Portrait Phone*/
-@media (max-width: 575.98px) {
-
-label, form{
-        flex-flow:column wrap;
-    }
-    form{
-        height:90%;
-    }
-#input-book{
-    display:flex;
-    flex-flow:column;
-    height:80%;
-    width:95%;
-}
-    button#add-book{
+button#add-book{
         width:60px;
         height:60px;
         border-radius:50%;
@@ -123,33 +117,67 @@ label, form{
         background-color:var(--tart-orange);
         justify-self:flex-end;
         align-self:flex-end;
-        font-size:2rem;
+        font-size:30px;
         margin-top:3rem;
         box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2),
                     4px 4px 6px rgba(0, 0, 0, 0.2),
                     4px 4px 10px rgba(0, 0, 0, 0.2);
         color:white;
         transition: linear 0.2s ;
+        flex-shrink:0;
     }
-    button#add-book:hover{
+button#add-book:hover{
         background-color:var(--turquoise)
     }
-     
+/*Portrait Phone*/
+@media (max-width: 575.98px) {
 
+body{
+        overflow:hidden;
+        height:50vh;
+    }
+
+label, form{
+        flex-flow:column;
+    }
+
+form{
+    height:50%;
+    }
+
+#input-book{
+
+    flex-flow:column;
+    height:60%;
 }
 
-/* Small devices (landscape phones, less than 768px)*/
-@media (max-width: 767.98px) {
-    #container{
+}
+/*Landscape Phones and tablets*/
+@media (min-width:576px) and (max-width:992px){
+    #input-book, form, label{
+        flex-flow:column;
+    }
+
+    h1{
+        font-size:1.3rem; 
+    }
+    h2{
+        font-size:1rem;
+        margin:0;
+    }
+    button#add-book{
+        justify-self:flex-start;
+        align-self:flex-end;
+        margin-top:0;
+        border-radius:5%;
+        width:100px;
+        height:auto;
 
     }
 
 }
+/* Big screens */
+@media (min-width: 992px){
+    
 
-/* Medium devices (tablets, less than 992px)*/
-@media (max-width: 991.98px) {
-}
-
-/*Large devices (desktops, less than 1200px)*/
-@media (max-width: 1199.98px) {
 }
