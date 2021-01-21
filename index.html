@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@700&family=Frank+Ruhl+Libre:wght@300&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
+
+    
+    <title>MyLibrary</title>
+</head>
+<body>
+    <div id ="container">
+        <header>
+            <h1><span>My</span>Library</h1>
+            <h2>Part of the Odin Project Curriculum</h2>
+        </header>
+        
+        <div id="input-book">
+            <form action="">
+                <div id="text-input">
+                <label for="book-title">Title
+                    <input type="text" id="book-title">
+                </label>
+                
+                <label for="book-author">Author
+                    <input type="text" id="book-author" required>
+                </label>
+                </div>
+                <label for="is-read" class="toggle-group">
+                  <span>Read?</span>
+                  <input type="checkbox" id="is-read">
+                  <span class="toggle"></span>
+                </label>
+            
+        </form>
+
+        <button id="add-book">+</button>
+        </div>
+        <div id="book-list">
+
+        </div>
+    </div id ="container">
+    <script src="script.js"></script>
+</body>
+</html>

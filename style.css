@@ -1,0 +1,155 @@
+/*Insert Color Variables Here:*/
+:root {
+
+--turquoise: #00d9c0ff;
+--tart-orange: #f25757ff;
+--blue-sapphire: #19647eff;
+--maximum-yellow-red: #ffc857ff;
+--old-burgundy: #2c1a1dff;
+
+}
+
+body{
+    
+    font-family: 'Yanone Kaffeesatz';
+    background-color:rgb(255, 253, 245);
+    
+}
+
+header{
+    text-align:center;
+}
+
+header > *{
+    margin:0;
+}
+
+
+h1{
+    font-family: 'Cardo';
+    font-weight:700;
+    color:var(--tart-orange);
+    font-size:3rem;
+}
+h2{
+    font-size:1rem;
+    font-size:1.5rem;
+    color:var(--blue-sapphire);
+    margin-bottom:2rem;
+}
+#container{
+    height:90vh;
+    margin:2rem 1rem;
+}
+label, form{
+    display:flex;
+}
+
+[type="checkbox"] {
+position: absolute;
+left: -9999px;
+}
+
+
+.toggle{
+    position:relative;
+    width:60px;
+    height:30px;
+    border-radius: 15px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+    background: var(--tart-orange);
+    transition: all 0.3s;
+}
+.toggle::before{
+    content: "";
+    position: absolute;
+    height:30px;
+    width:30px;
+    background-color:white;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.4);
+    border-radius:15px;
+    transition: all 0.3s;
+}
+.toggle::after{
+    position:absolute;
+    left:35px;
+    bottom:2px;
+    font-family:arial;
+    color:#555;
+}
+#is-read:checked + span.toggle::after{
+    transform:translateX(-25px);
+}
+    #is-read:checked + span.toggle{
+        background: var(--turquoise)
+    }
+    #is-read:checked + span.toggle::before{
+        transform:translateX(30px);
+
+    }
+    
+    label{
+        margin:1rem 0.8rem;
+        font-size:1.5rem;
+        color:var(--blue-sapphire);
+    }
+    input{
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        margin-top:0.4rem;
+    }
+
+    
+
+/*Portrait Phone*/
+@media (max-width: 575.98px) {
+
+label, form{
+        flex-flow:column wrap;
+    }
+    form{
+        height:90%;
+    }
+#input-book{
+    display:flex;
+    flex-flow:column;
+    height:80%;
+    width:95%;
+}
+    button#add-book{
+        width:60px;
+        height:60px;
+        border-radius:50%;
+        border:none;
+        background-color:var(--tart-orange);
+        justify-self:flex-end;
+        align-self:flex-end;
+        font-size:2rem;
+        margin-top:3rem;
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2),
+                    4px 4px 6px rgba(0, 0, 0, 0.2),
+                    4px 4px 10px rgba(0, 0, 0, 0.2);
+        color:white;
+        transition: linear 0.2s ;
+    }
+    button#add-book:hover{
+        background-color:var(--turquoise)
+    }
+     
+
+}
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767.98px) {
+    #container{
+
+    }
+
+}
+
+/* Medium devices (tablets, less than 992px)*/
+@media (max-width: 991.98px) {
+}
+
+/*Large devices (desktops, less than 1200px)*/
+@media (max-width: 1199.98px) {
+}
