@@ -20,23 +20,24 @@
         <div id="input-book">
             <form action="">
                 <div id="text-input">
-                <label for="book-title">Title
+                    <div class="form-group">
+                    <label for="book-title">Title</label>
                     <input type="text" id="book-title">
-                </label>
-                
-                <label for="book-author">Author
-                    <input type="text" id="book-author" required>
-                </label>
                 </div>
-                <label for="is-read" class="toggle-group">
+                <div class="form-group">
+                    <label for="book-author">Author</label>
+                    <input type="text" id="book-author" required>
+                </div>
+                </div>
+                <label for="is-read" class="form-group toggle-group">
                   <span>Read?</span>
                   <input type="checkbox" id="is-read">
                   <span class="toggle"></span>
                 </label>
             
+        <button id="add-book">Add Book</button>
         </form>
 
-        <button id="add-book">+</button>
         </div>
         <div id="book-list">
 
