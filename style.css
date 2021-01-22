@@ -9,6 +9,14 @@
 
 }
 
+.remove-book{
+    color:var(--tart-orange);
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:800;
+    margin-left:1rem;
+    text-decoration:none;
+}
+
 /*Basic Styling*/
 body{
     
@@ -35,9 +43,13 @@ display:flex;
 
 h1{
     font-family: 'Cardo';
-    font-weight:700;
+    font-weight:100;
     color:var(--tart-orange);
     font-size:3rem;
+}
+h1 > span{
+    
+    color:var(--blue-sapphire);
 }
 
 h2{
@@ -109,29 +121,51 @@ input{
         margin-top:0.4rem;
         height:2.5rem;
     }
-button#add-book{
+.btn{
         border-radius:5px;
-        border:none;
+
         background-color:var(--tart-orange);
+        border:none;
         box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2),
                     4px 4px 6px rgba(0, 0, 0, 0.2),
                     4px 4px 10px rgba(0, 0, 0, 0.2);
         color:white;
-        transition: linear 0.2s ;
+        transition: linear 0.2s;
         flex-shrink:0;
         font-size:1rem;
     }
-button#add-book:hover{
+
+button#add-book:hover, .btn-not-read:hover{
         background-color:var(--turquoise);
-        color:var(--blue-sapphire);
+    }
+    .btn-read{
+        background-color:var(--turquoise);
+    }
+.btn-read:hover{
+        background-color:var(--tart-orange);
+        color:white;
+    }
+
+.read-status{
+        padding:0.3rem 0.7rem;
+        margin:0;
+        width:90px;
+    
     }
 /*Portrait Phone*/
 
-@media (max-width:575.98px) {
+@media (max-width:990.98px) {
     button{
         margin-top:1rem;
         height:3rem;
         font-weight:800;
+    }
+    .read-status{
+        width:100px;
+        height:auto;
+        font-size:1rem;
+        font-weight:100;
+        box-shadow:none;
     }
     #input-book{
         flex-direction:column;
@@ -156,10 +190,35 @@ button#add-book:hover{
     }
 
 }
+
 #book-list{
+    padding-top:3rem;
     margin-top:1rem;
     height:100%;
+    width:100%;
+    display:flex;
+    text-align:left;
 }
+
+th{
+    border-bottom:1px solid var(--turquoise);
+    color:var(--tart-orange);
+    font-size:1.6rem;
+}
+
+th.table-title{
+    width:50%;
+}
+th.table-author{
+    width:30%;
+}
+td{
+    color:var(--blue-sapphire);
+    font-size:1.3rem;
+}
+
+
+
 
 
 /* Big screens */
@@ -168,8 +227,10 @@ button#add-book:hover{
     #input-book{
         display:flex;
         flex-flow:row;
-        align-self:center;
         margin-top:3rem;
+        width:auto;
+        align-self:center;
+        
     }
     form{
         align-items:center;
@@ -204,5 +265,26 @@ button#add-book:hover{
         margin-left:1rem;
         
     }
-
-}
+    #book-list{
+        margin:5rem;
+        display:flex;
+        align-self:center;
+        width:60%;
+    }
+    #book-table{
+        font-size:1.5rem;
+        text-align:left;
+        margin-left:1rem;
+        width:100%;
+    }
+    th{
+        border-bottom:1px solid var(--turquoise);
+        color:var(--tart-orange);
+        padding:0;
+        margin:0;
+        
+    }
+    td{
+        padding:0.2rem;
+    }
+    }

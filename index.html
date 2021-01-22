@@ -35,11 +35,48 @@
                   <span class="toggle"></span>
                 </label>
             
-        <button id="add-book">Add Book</button>
+        <button id="add-book" class="btn">Add Book</button>
         </form>
 
         </div>
         <div id="book-list">
+            <table id="book-table">
+                <thead>
+                  <tr>
+                    <th class="table-title">Title</th>
+                    <th class="table-author">Author</th>
+                    <th>Status</th>
+                    <th>Remove</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Master and Margarita</td>
+                    <td>Bulgakov</td>
+                    <td><button class="read-status btn btn-not-read">
+                        Not read
+                    </button></td>
+                    <td><a href ="#" class="remove-book">x</a></td>
+                  </tr>
+                  <tr>
+                    <td>Master and Margarita</td>
+                    <td>Bulgakov</td>
+                    <td><button class="read-status btn btn-read">
+                        Read
+                    </button>
+                    <td><a href ="#" class="remove-book">x</a></td>
+                  </tr>
+                  <tr>
+                    <td>Master and Margarita</td>
+                    <td>Bulgakov</td>
+                    <td><button class="read-status btn btn-not-read">
+                        Not read
+                    </button></td>
+                    <td><a href ="#" class="remove-book">x</a></td>
+                  </tr>
+                </tbody>
+                </table>
 
         </div>
     </div id ="container">
