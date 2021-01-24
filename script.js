@@ -1,6 +1,5 @@
 //Library Array
-const myLibrary = [
-    testBook = new Book(0, 'dummy title', 'dummy author', false )];
+const myLibrary = [new Book(0, 'Dummy', 'Dummy', true)];
 
 //Page Elements
 const page = {
@@ -19,10 +18,8 @@ function Book(id, title, author, isRead){
     this.isRead = isRead;
 }
 
-Book.prototype.addRow = function(){
-
+Book.prototype.addRow = function() {
     const newRow = document.createElement('tr');
-
     Object.entries(this).slice(1).forEach(([key, value]) => {
 
         let newCell = document.createElement('td')
@@ -31,11 +28,15 @@ Book.prototype.addRow = function(){
         page.bookTable.appendChild(newRow)
         
         if (key === 'isRead') {
-            newCell.classList.add('flex-cell')
-            newCell.innerHTML = 
-            `<label class ="form-group toggle-group">
-            <input type="checkbox" id="is-read">
-            <span class="toggle"></span></label>`
+            const isReadBtn = document.createElement('button')
+            isReadBtn.classList.add('read-status-btn','read-status-btn-'+value)
+            isReadBtn.textContent = `${this.isRead ? 'Read' : 'Unread'}`;
+            console.log(this.isRead)
+
+            newCell.textContent = null;
+            newCell.style.display = 'flex'
+            newCell.appendChild(isReadBtn);
+            
             let deleteBtn = document.createElement('a')
             newCell.setAttribute(`data-ID`, this.id)
             deleteBtn.textContent = 'x'
@@ -45,93 +46,64 @@ Book.prototype.addRow = function(){
     })
 }
 
-
-
-
-
-displayBooks(myLibrary);
+displayBooks(myLibrary)
 //Add Button Click
 page.addBookBtn.addEventListener('click', newBook)
 
 function newBook(e){
     e.preventDefault()
+    if (page.titleInput.value && 
+        page.authorInput.value){
     const book = new Book(
-                            myLibrary.length + 1, 
+                            myLibrary.length, 
                             page.titleInput.value, 
                             page.authorInput.value,  
                             page.isReadInput.checked) 
 
     myLibrary.push(book);
-
+        page.titleInput.value = '';
+        page.authorInput.value = ''
         displayBooks(myLibrary)
-}
+    }
+    else {
+        e.target.innerText = 'All Fields are Required!'
+        e.target.style.backgroundColor = 'red'
+        setTimeout(function() {
+            e.target.innerText = 'Add Book'
+            e.target.style.backgroundColor = null
+        }, 1000)
+    }
+    }
+
 
 // Display Books in Library
 function displayBooks(myLibrary){
-    console.log(myLibrary, 'running')
+    page.bookTable.style.display = 'none'
+    if (myLibrary.length) page.bookTable.style.display = 'table'
     page.bookTable.innerHTML = 
     `<thead id="table-head">
     <tr>
       <th class='title-table'>Title</th>
       <th class='author-table'>Author</th>
       <th class="status">Status</th>
-    </tr>`
+    </tr>
+    </thead>`
+
+
 myLibrary.forEach(book => {
     book.addRow()
-})
+});
+document.querySelectorAll('.remove-book').forEach(button => {
+
+    button.addEventListener('click', removeBook);
+});
 }
+function removeBook(e){
 
-//     myLibrary.forEach(book => createRow(book))
-// }
-
-// function createRow(book)
-
+    const bookID = e.target.parentNode.dataset.id;
+    myLibrary.splice(bookID,1)
+    displayBooks(myLibrary)
     
 
+}
 
-// }
-// function Book(id, title, author, isRead) {
-//     this.id = id;
-//     this.title = title;
-//     this.author = author;
-//     this.isRead = isRead;
-//     }
-
-// Book.prototype.toggleRead = function(){
-//     if (this.isRead) console.log('read')
-//     else console.log('not read')
-// }  
-
-// myLibrary.push(book1,book2)
-
-// if (!myLibrary.length) elements.bookTable.style.display = 'none'
-
-// function displayBooks(elements){
-
-//     if (myLibrary.length) elements.bookTable.style.display = 'table'
-//     myLibrary.forEach(book => {
-//         let newRow =  document.createElement('tr');
-//         let titleCell = document.createElement('td');
-//         let authorCell = document.createElement('td');
-//         let isReadCell = document.createElement('td');
-//         let removeCell = document.createElement('td');        
-//         let isReadBtn = document.createElement('button');
-//         let removeBtn = document.createElement('span');
-//         isReadBtn.classList.add('read-status', 'btn');
-//         removeBtn.classList.add('remove-book')
-//         authorCell.classList.add('table-author')
-//         titleCell.classList.add('table-title')
-//         removeBtn.textContent = 'x'
-//         titleCell.textContent = book.title;
-//         authorCell.textContent = book.author;
-//         elements.bookTable.appendChild(newRow);
-//         newRow.appendChild(titleCell);
-//         newRow.appendChild(authorCell);
-//         newRow.appendChild(isReadCell);  
-//         newRow.appendChild(isReadCell);
-//         newRow.appendChild(removeCell)
-//         isReadCell.appendChild(isReadBtn)
-//         isReadCell.appendChild(removeBtn)  
-//     });
-// }
-// }}
