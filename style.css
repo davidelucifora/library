@@ -129,18 +129,10 @@ button#add-book:hover{
         background-color:white;
     }
 
-.read-status{
-        padding:0.3rem 0.7rem;
-        margin:0;
-        width:90px;
-    
-    }
-
 .remove-book{
     color:var(--tart-orange);
     font-family:Arial, Helvetica, sans-serif;
     font-weight:800;
-    margin-left:2rem;
     cursor:pointer;
 }
 
@@ -157,7 +149,7 @@ button#add-book:hover{
 .flex-cell{
     display:flex;
     align-items:center;
-    justify-content:flex-start;
+    justify-content:space-between;
     margin:0;
     padding:0;
     max-width:auto;
@@ -168,9 +160,27 @@ button#add-book:hover{
     height:2rem;
     max-width:50%;
 }
-.flex-cell .toggle-group{
-    margin-left:0;
+.read-status-btn{
+    width:75px;
+    margin:0;
+    background-color:white;
+    margin-right:2rem;
+    margin-left:-0.5rem;
+    box-shadow:none;
+    padding:0.2rem 0.6rem;
+    cursor:pointer;
 }
+.read-status-btn-true{
+    color:var(--turquoise);
+    border:1px solid var(--turquoise);
+    background-color:white;
+}
+.read-status-btn-false{
+    color:var(--tart-orange);
+    border:1px solid var(--tart-orange);
+    background-color:white;
+}
+
 /*Portrait Phone*/
 @media (max-width:990.98px) {
 
@@ -179,13 +189,7 @@ button#add-book:hover{
         height:3rem;
         font-weight:800;
     }
-    .read-status{
-        width:110px;
-        height:auto;
-        font-size:1rem;
-        font-weight:100;
-        box-shadow:none;
-    }
+
     #input-book{
         flex-direction:column;
     }
@@ -198,7 +202,6 @@ button#add-book:hover{
     }
     .toggle-group{
         flex-flow:row;
-        justify-content:center;
     }
     .toggle{
         margin-left:0.4rem;
@@ -208,22 +211,9 @@ button#add-book:hover{
         flex-flow:column;
     }
 
-    .flex-cell{
-        
-        justify-content:space-between;;
+
 
     }
-    .flex-cell > *{
-        margin:0.1rem;
-        padding:0;
-        height:2rem;
-        max-width:50%;
-    }
-    .flex-cell .toggle-group{
-        margin-left:0;
-    }
-
-}
 
 td{
     padding:0.5rem;
@@ -300,6 +290,7 @@ th.title-table{
 
     /*Table Styling*/
     #book-table{
+        display:none;
         font-size:1.5rem;
         text-align:left;
         margin-left:1rem;
