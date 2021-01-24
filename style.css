@@ -72,8 +72,6 @@ left: -9999px;
 }
 
 .toggle-group{
-    width:100px;
-
     align-items:center;
 }
 
@@ -152,8 +150,27 @@ button#add-book:hover{
     display:flex;
     justify-content:center;
     text-align:left;
+    margin-bottom:10rem;
+    max-height:90vh;
 }
 
+.flex-cell{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    margin:0;
+    padding:0;
+    max-width:auto;
+}
+.flex-cell > *{
+    margin:0.2rem;
+    padding:0;
+    height:2rem;
+    max-width:50%;
+}
+.flex-cell .toggle-group{
+    margin-left:0;
+}
 /*Portrait Phone*/
 @media (max-width:990.98px) {
 
@@ -181,6 +198,7 @@ button#add-book:hover{
     }
     .toggle-group{
         flex-flow:row;
+        justify-content:center;
     }
     .toggle{
         margin-left:0.4rem;
@@ -190,9 +208,20 @@ button#add-book:hover{
         flex-flow:column;
     }
 
+    .flex-cell{
+        
+        justify-content:space-between;;
 
-
-
+    }
+    .flex-cell > *{
+        margin:0.1rem;
+        padding:0;
+        height:2rem;
+        max-width:50%;
+    }
+    .flex-cell .toggle-group{
+        margin-left:0;
+    }
 
 }
 
@@ -210,6 +239,7 @@ tr:hover{
     border-top:1px solid var(--turquoise);
     background-color:#EFF;
 }
+
     
 th{
     border-bottom:1px solid var(--turquoise);
@@ -222,9 +252,6 @@ th.title-table{
 .author-table{
     width:40%;
 }
-
-
-
 
 /* Big screens */
 @media (min-width: 992px){
@@ -250,6 +277,8 @@ th.title-table{
     }
     .toggle-group{
         margin-left:1rem;
+        display:flex;
+        flex-direction:row;
     }
     #text-input> *{
             height:2rem;
