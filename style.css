@@ -243,6 +243,11 @@ th.title-table{
     width:40%;
 }
 
+.empty-library-message{
+    margin-top:20vh;
+    
+}
+
 /* Big screens */
 @media (min-width: 992px){
 
