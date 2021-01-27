@@ -300,6 +300,6 @@ th.title-table{
         text-align:left;
         margin-left:1rem;
         border-collapse:collapse;
-        max-width:60vw;
+        width:60vw;
     }
 }    
