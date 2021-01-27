@@ -25,9 +25,8 @@ header > *{
 #container{
     display:flex;
     flex-flow:column;
-    height:90vh;
+    height:95vh;
     margin:2rem 1rem;
-
 }
 #input-book, form, .form-group, label, input{
 display:flex;
@@ -303,3 +302,19 @@ th.title-table{
         width:60vw;
     }
 }    
+
+footer{
+    display:flex;
+    flex-direction:column;
+    margin-top:auto;
+    align-items:center;
+    bottom:0;
+    font-size:1.2rem;
+    color:var(--blue-sapphire)
+
+}
+footer a {
+    text-decoration:none;
+    color:var(--tart-orange);
+    font-weight:800;
+}
