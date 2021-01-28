@@ -13,7 +13,7 @@
 
 </head>
 <body>
-    <div id ="container">
+    <div id ="container" class="is-blurred">
         <header>
             <h1><span>My</span>Library</h1>
             <h2>Part of the Odin Project Curriculum</h2>
@@ -49,8 +49,27 @@
                 </table>
 
         </div>
-
         <footer><p>Hand Coded with Love by <a href="https://www.davidelucifora.com">Davide Lucifora | <a href="https://www.github.com/dalux21/"><i class="fab fa-github"></i></a></p></footer>
+        </div>
+        <div id ='login-modal'></div>
+            <form id="sign-in-form">
+                <div class="sign-in-form-group">
+                    <label for="sign-in-email">Email</label>
+                    <input id="sign-in-email" type="email" placeholder="e.g. rick-sanchez@mail.com">
+                </div>
+                <div class="sign-in-form-group">
+                <label for="sign-in-pwd">Password</label>
+                <input id="sign-in-pwd" type="password">
+                </div>  
+                <div class="sign-in-form-group">
+                <button id="login-btn" class="btn">Log In</button>
+                <p>No Account? <a id="sign-up-btn" href="#">Sign Up</a>.</p>
+            </div>
+                <a id="choose-local-btn" href="#">Use Local Storage Instead</a>
+            
+            </form>
+
+        
     </div>
     <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
