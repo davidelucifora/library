@@ -1,3 +1,5 @@
+let storageChoice;
+
 //Library Array
 const myLibrary = []
 
@@ -7,7 +9,16 @@ const page = {
         authorInput: document.getElementById('book-author'),
         isReadInput: document.getElementById('is-read'),
         addBookBtn: document.getElementById('add-book'),
-        bookTable: document.getElementById('book-table')
+        bookTable: document.getElementById('book-table'),
+        container: document.getElementById('container'),
+        loginModal: document.getElementById('login-modal'),
+        signInForm: document.getElementById('sign-in-form'),
+        loginEmailInput: document.getElementById('sign-in-email'),
+        loginPwdInput: document.getElementById('sign-in-pwd'),
+        loginBtn: document.getElementById('login-btn'),
+        signUpBtn: document.getElementById('sign-up-btn'),
+        chooseLocalBtn: document.getElementById('choose-local-btn')
+
 }
 
 //Book Constructor
@@ -65,13 +76,56 @@ return this.isRead = !this.isRead
 }
 
 /////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+// PSEUDO CODE FOR WORK IN PROGRESS // 
+// So
+
+// The window loads,
+
+// The program checks if the user is logged in.
+
+// If it is, goes to firebase storage mode with his credentials.
+
+// If he isn't, shows the modal.
+
+// If the user signs in -> Go to firebase mode (init firebase -> auth the user -> show him his library)
+// If the user signs up -> Create user and go to Firebase Mode. (init firebase -> auth the user -> show him empty library)
+// If the user clicks on localStorage -> go to localStorage (show warning somewhere that he will lose data)
+// If the user clicks out of the Modal -> go to localStorage. 
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
 
 
-//Sync myLibrary Array with Local Storage
-retrieveBooksFromLocalStorage()
 
-//Display books on page.
+//Listen for click on Modal and local storage btn.
+page.loginModal.addEventListener('click', function(){
+
+    closeModal()
+    retrieveBooksFromLocalStorage()
+    displayBooks(myLibrary)
+    return storageChoice = 'local'
+    
+})
+page.chooseLocalBtn.addEventListener('click', function(){
+
+    closeModal()
+    retrieveBooksFromLocalStorage()
+    displayBooks(myLibrary)
+    return storageChoice = 'local'
+    
+})
+// closes the modal.
+function closeModal(){
+    page.container.classList.remove('is-blurred');
+    page.loginModal.style.display = 'none';
+    page.signInForm.style.display = 'none';
+}
+
+
 displayBooks(myLibrary)
+
 
 //Listen for add book button
 page.addBookBtn.addEventListener('click', newBook)
@@ -172,7 +226,7 @@ function retrieveBooksFromLocalStorage(){
         //Retrieve Objects in localStorage if any and add to a temp array
         if (localStorage.length){
             const tempList = []
-            for(let i=0; i<localStorage.length; i++) {
+            for(let i = 0; i < localStorage.length; i++) {
                 let key = localStorage.key(i);
                 object = JSON.parse((localStorage.getItem(key)))
                 //Push them to a temp Array
