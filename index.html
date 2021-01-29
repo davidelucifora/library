@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@700&family=Frank+Ruhl+Libre:wght@300&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
+    
     <script src="https://kit.fontawesome.com/16bfa91042.js" crossorigin="anonymous"></script>
 
     
@@ -17,6 +18,7 @@
         <header>
             <h1><span>My</span>Library</h1>
             <h2>Part of the Odin Project Curriculum</h2>
+            <h3>Click here to <span id="login-logout"><a href="#" id="login-logout-btn">Login</a></span></h3>
         </header>
         
         <div id="input-book">
@@ -53,19 +55,19 @@
         </div>
         <div id ='login-modal'></div>
             <form id="sign-in-form">
-                <div class="sign-in-form-group">
+                <div class="sign-in-form-group login-child">
                     <label for="sign-in-email">Email</label>
                     <input id="sign-in-email" type="email" placeholder="e.g. rick-sanchez@mail.com">
                 </div>
-                <div class="sign-in-form-group">
+                <div class="sign-in-form-group login-child">
                 <label for="sign-in-pwd">Password</label>
                 <input id="sign-in-pwd" type="password">
                 </div>  
-                <div class="sign-in-form-group">
+                <div class="sign-in-form-group login-child">
                 <button id="login-btn" class="btn">Log In</button>
-                <p>No Account? <a id="sign-up-btn" href="#">Sign Up</a>.</p>
+                <button id="sign-up-btn" class ="btn">Sign Up</button>
             </div>
-                <a id="choose-local-btn" href="#">Use Local Storage Instead</a>
+                <a id="choose-local-btn" class="login-child" href="#">Use Local Storage Instead</a>
             
             </form>
 
@@ -73,5 +75,6 @@
     </div>
     <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
     <script src="firebaseconfig.js"></script>
     <script src="script.js"></script>
