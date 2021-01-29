@@ -9,6 +9,5 @@
     appId: "1:130814336608:web:2fb9c7c36fbdef7789ed05"
   };
 
-//   firebase.initializeApp(firebaseConfig)
-//   const dbRef = firebase.database().ref('Library')
-
+  firebase.initializeApp(firebaseConfig)
+const dbRef = firebase.database().ref('Library')
