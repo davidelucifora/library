@@ -1,7 +1,7 @@
 //Library Array
 const myLibrary = []
+let isUserLoggedIn = 'false'
 
-let storageChoice;
 //Page Elements
 const page = {
         titleInput: document.getElementById('book-title'),
@@ -35,9 +35,10 @@ function Book(id, title, author, isRead){
 Book.prototype.addRow = function() {
 
     const newRow = document.createElement('tr');
+    //Iterate through Book info and exract values
     Object.entries(this).slice(1).forEach(([key, value]) => {
 
-        //Title / Author Cells.
+        //Add Title / Author Cells from Obj Values
         let newCell = document.createElement('td')
         newCell.textContent = value
         newRow.appendChild(newCell)
@@ -45,7 +46,6 @@ Book.prototype.addRow = function() {
 
         // Last column (Status + Remove buttons)
         if (key === 'isRead') {
-            
             
             //Create read Status Button
             const isReadBtn = document.createElement('button')
@@ -89,52 +89,47 @@ return this.isRead = !this.isRead
 
 // If he isn't, shows the modal.
 
-// If the user signs in -> Go to firebase mode (init firebase -> auth the user -> show him his library)
-// If the user signs up -> Create user and go to Firebase Mode. (init firebase -> auth the user -> show him empty library)
-// If the user clicks on localStorage -> go to localStorage (show warning somewhere that he will lose data)
+// If the user signs in -> Go to firebase mode (init firebase -> auth the user -> show him his library)  
+// If the user signs up -> Create user and go to Firebase Mode. (init firebase -> auth the user -> show him empty library)  DONE
+// If the user clicks on localStorage -> go to localStorage (show warning somewhere that he will lose data) 
 // If the user clicks out of the Modal -> go to localStorage. 
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
-//Check if user is signed in
-let isUserLoggedIn
 
+//Init Firebase and check if user is logged in
 firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(function(user) {
+
     if (user) {
-            //Welcome User and close Login Modal
+            //Welcome User and close login modal
             showWelcomeMessage()
         // Change login btn to Logout Button.
             page.loginLogoutBtn.innerText = 'Logout'
             isUserLoggedIn = true;
     }
 });
-
-//Listen for click on Modal and local storage btn.
 page.loginModal.addEventListener('click', function(){
-
+    isUserLoggedIn = 'false'
     closeModal()
     retrieveBooksFromLocalStorage()
     displayBooks(myLibrary)
-    isUserLoggedIn = false
-    showLoginButton()
+   
 })
 page.chooseLocalBtn.addEventListener('click', function(){
-
+    isUserLoggedIn = 'false'
     closeModal()
     retrieveBooksFromLocalStorage()
     displayBooks(myLibrary)
-    isUserLoggedIn = false
-    showLoginButton()
-    
-})
 
+})
+// Listen for click on Sign Up Button
 page.signUpBtn.addEventListener('click', function(){
 
-    // const dbRef = firebase.database().ref('Library')
     const email = page.loginEmailInput.value;
     const password = page.loginPwdInput.value;
-    //Sign Up the User
+    
+    //Sign the user up.
     firebase.auth().createUserWithEmailAndPassword(email, password)
   .then((userCredential) => {
     // Signed in 
@@ -148,18 +143,22 @@ page.signUpBtn.addEventListener('click', function(){
     // ..
   })
 
+  // If user is logged in, show welcome message to the user
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         showWelcomeMessage()
     } else {
-      // No user is signed in.
+        //Otherwise, change user LoggedIn status and logout btn to login btn
+        isUserLoggedIn = false;
+        page.loginLogoutBtn.textContent = 'Login'
     }
   });
-
 });
+
 
 function showWelcomeMessage(){
     document.querySelectorAll('.login-child').forEach(elem => elem.style.display = 'none')
+
     page.welcomeMessage = document.createElement('h1')
     page.welcomeMessage.textContent = 'Welcome!'
     page.signInForm.appendChild(page.welcomeMessage)
@@ -171,33 +170,30 @@ function closeModal(){
     page.container.classList.remove('is-blurred');
     page.loginModal.style.display = 'none';
     page.signInForm.style.display = 'none';
+
+
 }
 
-function showLoginButton(){
-    return page.loginBtn.textContent = `${storageChoice === 'local' ? 'Login' : 'Logout'}`    
-}
+
+
+//Listen for click on Login/Logout Button.
 page.loginLogoutBtn.addEventListener('click', function(e){
 
-    if (this.innerText = 'Logout'){
+    if (isUserLoggedIn){
         firebase.auth().signOut().then(() => {
-            // Sign-out successful.
+            e.target.textContent = 'Login'
           }).catch((error) => {
             // An error happened.
           });
-          return e.target.innerText = 'Login'
+        }
+        else {
+            showModal() 
         }
 
 })
+
 displayBooks(myLibrary)
 
-page.loginLogoutBtn.addEventListener('click', function(){   
-    if (this.textContent === 'Login') {
-        showModal()
-    }
-    else {
-        ////LOG USER OUT AND HIDE MODAL///
-    }
-})
 
 function showModal() {
     page.container.classList.add('is-blurred');
@@ -300,8 +296,8 @@ function toggleStatus(e){
 
 //Sync myLibrary with local Storage
 function retrieveBooksFromLocalStorage(){
+    
         //Retrieve Objects in localStorage if any and add to a temp array
-        if (localStorage.length){
             const tempList = []
             for(let i = 0; i < localStorage.length; i++) {
                 let key = localStorage.key(i);
@@ -309,12 +305,12 @@ function retrieveBooksFromLocalStorage(){
                 //Push them to a temp Array
                 tempList.push(object)
             }
-            
         tempList.forEach(book => {
             if (!JSON.stringify(book).includes('firebase')){
-            myLibrary.push(new Book(book.id, book.title, book.author, book.isRead))}    
+                myLibrary.push(new Book(book.id, book.title, book.author, book.isRead))
+            }
         });
-        }   
+        
 }
 
 // Generates unique random ID
