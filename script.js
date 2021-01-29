@@ -1,6 +1,8 @@
 //Library Array
 const myLibrary = []
-let isUserLoggedIn = 'false'
+let isUserLoggedIn = false
+
+
 
 //Page Elements
 const page = {
@@ -17,8 +19,8 @@ const page = {
         loginBtn: document.getElementById('login-btn'),
         signUpBtn: document.getElementById('sign-up-btn'),
         chooseLocalBtn: document.getElementById('choose-local-btn'),
-        loginLogoutBtn: document.getElementById('login-logout-btn')
-
+        loginLogoutBtn: document.getElementById('login-logout-btn'),
+        welcomeMessage: document.createElement('h1')
 }
 
 //Book Constructor
@@ -98,7 +100,6 @@ return this.isRead = !this.isRead
 /////////////////////////////////////////////////////////////////////
 
 //Init Firebase and check if user is logged in
-firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(function(user) {
 
     if (user) {
@@ -109,20 +110,23 @@ firebase.auth().onAuthStateChanged(function(user) {
             isUserLoggedIn = true;
     }
 });
+
 page.loginModal.addEventListener('click', function(){
-    isUserLoggedIn = 'false'
+    isUserLoggedIn = false
     closeModal()
     retrieveBooksFromLocalStorage()
     displayBooks(myLibrary)
    
-})
+});
+
 page.chooseLocalBtn.addEventListener('click', function(){
-    isUserLoggedIn = 'false'
+    isUserLoggedIn = false
     closeModal()
     retrieveBooksFromLocalStorage()
     displayBooks(myLibrary)
 
-})
+});
+
 // Listen for click on Sign Up Button
 page.signUpBtn.addEventListener('click', function(){
 
@@ -131,17 +135,36 @@ page.signUpBtn.addEventListener('click', function(){
     
     //Sign the user up.
     firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then((userCredential) => {
+    .then((userCredential) => {
     // Signed in 
         var user = userCredential.user;
         isUserLoggedIn = true;
     // ...
-  })
+     })
   .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
     // ..
   })
+});
+
+//Listen for click on Sign In
+
+page.loginBtn.addEventListener('click', function(){
+    const email = page.loginEmailInput.value;
+    const password = page.loginPwdInput.value
+    firebase.auth().signInWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    // Signed in
+    var user = userCredential.user;
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+  });
+})
 
   // If user is logged in, show welcome message to the user
   firebase.auth().onAuthStateChanged(function(user) {
@@ -150,19 +173,21 @@ page.signUpBtn.addEventListener('click', function(){
     } else {
         //Otherwise, change user LoggedIn status and logout btn to login btn
         isUserLoggedIn = false;
-        page.loginLogoutBtn.textContent = 'Login'
+        page.loginLogoutBtn.textContent = 'Login or Register'
     }
   });
-});
 
 
 function showWelcomeMessage(){
     document.querySelectorAll('.login-child').forEach(elem => elem.style.display = 'none')
 
-    page.welcomeMessage = document.createElement('h1')
+
     page.welcomeMessage.textContent = 'Welcome!'
     page.signInForm.appendChild(page.welcomeMessage)
-    setTimeout(closeModal, 1000)
+    setTimeout(function(){
+        closeModal()
+    }, 1000)
+
 }
 
 // close the modal.
@@ -174,28 +199,31 @@ function closeModal(){
 
 }
 
-
-
 //Listen for click on Login/Logout Button.
 page.loginLogoutBtn.addEventListener('click', function(e){
 
     if (isUserLoggedIn){
-        firebase.auth().signOut().then(() => {
-            e.target.textContent = 'Login'
-          }).catch((error) => {
-            // An error happened.
-          });
-        }
-        else {
-            showModal() 
-        }
+            firebase.auth().signOut().then(() => {
+    e.target.textContent = 'Login or Register'
+  }).catch((error) => {
+    // An error happened.
+  });
+    }
+
+    else showModal()
 
 })
 
+
+ 
 displayBooks(myLibrary)
 
 
 function showModal() {
+    page.welcomeMessage.innerHTML = ''
+        document.querySelectorAll('.login-child').forEach(element => {
+            element.style.display = 'block';
+        });
     page.container.classList.add('is-blurred');
     page.loginModal.style.display = 'flex';
     page.signInForm.style.display= 'flex';
