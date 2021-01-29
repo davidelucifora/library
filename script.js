@@ -1,8 +1,7 @@
-let storageChoice;
-
 //Library Array
 const myLibrary = []
 
+let storageChoice;
 //Page Elements
 const page = {
         titleInput: document.getElementById('book-title'),
@@ -17,7 +16,8 @@ const page = {
         loginPwdInput: document.getElementById('sign-in-pwd'),
         loginBtn: document.getElementById('login-btn'),
         signUpBtn: document.getElementById('sign-up-btn'),
-        chooseLocalBtn: document.getElementById('choose-local-btn')
+        chooseLocalBtn: document.getElementById('choose-local-btn'),
+        loginLogoutBtn: document.getElementById('login-logout-btn')
 
 }
 
@@ -96,8 +96,19 @@ return this.isRead = !this.isRead
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
+//Check if user is signed in
+let isUserLoggedIn
 
-
+firebase.initializeApp(firebaseConfig);
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+            //Welcome User and close Login Modal
+            showWelcomeMessage()
+        // Change login btn to Logout Button.
+            page.loginLogoutBtn.innerText = 'Logout'
+            isUserLoggedIn = true;
+    }
+});
 
 //Listen for click on Modal and local storage btn.
 page.loginModal.addEventListener('click', function(){
@@ -105,28 +116,94 @@ page.loginModal.addEventListener('click', function(){
     closeModal()
     retrieveBooksFromLocalStorage()
     displayBooks(myLibrary)
-    return storageChoice = 'local'
-    
+    isUserLoggedIn = false
+    showLoginButton()
 })
 page.chooseLocalBtn.addEventListener('click', function(){
 
     closeModal()
     retrieveBooksFromLocalStorage()
     displayBooks(myLibrary)
-    return storageChoice = 'local'
+    isUserLoggedIn = false
+    showLoginButton()
     
 })
-// closes the modal.
+
+page.signUpBtn.addEventListener('click', function(){
+
+    // const dbRef = firebase.database().ref('Library')
+    const email = page.loginEmailInput.value;
+    const password = page.loginPwdInput.value;
+    //Sign Up the User
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    // Signed in 
+        var user = userCredential.user;
+        isUserLoggedIn = true;
+    // ...
+  })
+  .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    // ..
+  })
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        showWelcomeMessage()
+    } else {
+      // No user is signed in.
+    }
+  });
+
+});
+
+function showWelcomeMessage(){
+    document.querySelectorAll('.login-child').forEach(elem => elem.style.display = 'none')
+    page.welcomeMessage = document.createElement('h1')
+    page.welcomeMessage.textContent = 'Welcome!'
+    page.signInForm.appendChild(page.welcomeMessage)
+    setTimeout(closeModal, 1000)
+}
+
+// close the modal.
 function closeModal(){
     page.container.classList.remove('is-blurred');
     page.loginModal.style.display = 'none';
     page.signInForm.style.display = 'none';
 }
 
+function showLoginButton(){
+    return page.loginBtn.textContent = `${storageChoice === 'local' ? 'Login' : 'Logout'}`    
+}
+page.loginLogoutBtn.addEventListener('click', function(e){
 
+    if (this.innerText = 'Logout'){
+        firebase.auth().signOut().then(() => {
+            // Sign-out successful.
+          }).catch((error) => {
+            // An error happened.
+          });
+          return e.target.innerText = 'Login'
+        }
+
+})
 displayBooks(myLibrary)
 
+page.loginLogoutBtn.addEventListener('click', function(){   
+    if (this.textContent === 'Login') {
+        showModal()
+    }
+    else {
+        ////LOG USER OUT AND HIDE MODAL///
+    }
+})
 
+function showModal() {
+    page.container.classList.add('is-blurred');
+    page.loginModal.style.display = 'flex';
+    page.signInForm.style.display= 'flex';
+}
 //Listen for add book button
 page.addBookBtn.addEventListener('click', newBook)
 
@@ -232,9 +309,10 @@ function retrieveBooksFromLocalStorage(){
                 //Push them to a temp Array
                 tempList.push(object)
             }
-            //Go through Empty a
+            
         tempList.forEach(book => {
-            myLibrary.push(new Book(book.id, book.title, book.author, book.isRead))
+            if (!JSON.stringify(book).includes('firebase')){
+            myLibrary.push(new Book(book.id, book.title, book.author, book.isRead))}    
         });
         }   
 }
