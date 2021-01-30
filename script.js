@@ -85,7 +85,7 @@ return this.isRead = !this.isRead
 
 // The window loads,
 
-// The program checks if the user is logged in.
+// The program checks if the user is logged in. DONE
 
 // If it is, goes to firebase storage mode with his credentials.
 
@@ -103,6 +103,7 @@ return this.isRead = !this.isRead
 firebase.auth().onAuthStateChanged(function(user) {
 
     if (user) {
+
             //Welcome User and close login modal
             showWelcomeMessage()
         // Change login btn to Logout Button.
@@ -137,8 +138,12 @@ page.signUpBtn.addEventListener('click', function(){
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
     // Signed in 
-        var user = userCredential.user;
+        var userID = firebase.auth().currentUser.uid;
         isUserLoggedIn = true;
+        firebase.database().ref('Library/users/' + userID).set({
+            userID: userID,
+            email: email
+        })
     // ...
      })
   .catch((error) => {
@@ -172,7 +177,7 @@ page.loginBtn.addEventListener('click', function(){
         showWelcomeMessage()
     } else {
         //Otherwise, change user LoggedIn status and logout btn to login btn
-        isUserLoggedIn = false;
+
         page.loginLogoutBtn.textContent = 'Login or Register'
     }
   });
@@ -205,6 +210,7 @@ page.loginLogoutBtn.addEventListener('click', function(e){
     if (isUserLoggedIn){
             firebase.auth().signOut().then(() => {
     e.target.textContent = 'Login or Register'
+    isUserLoggedIn = false;
   }).catch((error) => {
     // An error happened.
   });
@@ -215,7 +221,6 @@ page.loginLogoutBtn.addEventListener('click', function(e){
 })
 
 
- 
 displayBooks(myLibrary)
 
 
@@ -251,7 +256,20 @@ function newBook(e){
 
     //Add Book to Library and Local Storage
     myLibrary.push(book)
-    localStorage.setItem(book.id, JSON.stringify(book))
+    if (!isUserLoggedIn) localStorage.setItem(book.id, JSON.stringify(book))
+    if (isUserLoggedIn) addBookToDB(book)
+      
+          
+    }
+
+    function addBookToDB(book) {
+        var userID = firebase.auth().currentUser.uid; 
+        firebase.database().ref('users/' + userID).push({
+          bookId: book.id,
+          bookTitle: book.title,
+          bookAuthor : book.author,
+          isRead: book.isRead
+        });
         
         //Reset form and refresh book list
         page.titleInput.value = '';
