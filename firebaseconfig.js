@@ -10,4 +10,5 @@
   };
 
   firebase.initializeApp(firebaseConfig)
-const dbRef = firebase.database().ref('Library')
+const firebaseDB = firebase.database()
+const DBRef = firebase.database().ref('Library')
