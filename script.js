@@ -2,8 +2,6 @@
 const myLibrary = []
 let isUserLoggedIn = false
 
-
-
 //Page Elements
 const page = {
         titleInput: document.getElementById('book-title'),
@@ -77,28 +75,6 @@ Book.prototype.changeStatus = function(){
 return this.isRead = !this.isRead
 }
 
-/////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-
-// PSEUDO CODE FOR WORK IN PROGRESS // 
-// So
-
-// The window loads,
-
-// The program checks if the user is logged in. DONE
-
-// If it is, goes to firebase storage mode with his credentials.
-
-// If he isn't, shows the modal.
-
-// If the user signs in -> Go to firebase mode (init firebase -> auth the user -> show him his library)  
-// If the user signs up -> Create user and go to Firebase Mode. (init firebase -> auth the user -> show him empty library)  DONE
-// If the user clicks on localStorage -> go to localStorage (show warning somewhere that he will lose data) 
-// If the user clicks out of the Modal -> go to localStorage. 
-
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////
-
 //Init Firebase and check if user is logged in
 firebase.auth().onAuthStateChanged(function(user) {
 
@@ -106,9 +82,13 @@ firebase.auth().onAuthStateChanged(function(user) {
 
             //Welcome User and close login modal
             showWelcomeMessage()
+            retrieveBooksFromDB();
+            displayBooks(myLibrary)
+    
         // Change login btn to Logout Button.
             page.loginLogoutBtn.innerText = 'Logout'
             isUserLoggedIn = true;
+            localStorage.clear()
     }
 });
 
@@ -211,6 +191,8 @@ page.loginLogoutBtn.addEventListener('click', function(e){
             firebase.auth().signOut().then(() => {
     e.target.textContent = 'Login or Register'
     isUserLoggedIn = false;
+    retrieveBooksFromLocalStorage()
+    displayBooks(myLibrary)
   }).catch((error) => {
     // An error happened.
   });
@@ -219,10 +201,6 @@ page.loginLogoutBtn.addEventListener('click', function(e){
     else showModal()
 
 })
-
-
-displayBooks(myLibrary)
-
 
 function showModal() {
     page.welcomeMessage.innerHTML = ''
@@ -264,7 +242,7 @@ function newBook(e){
 
     function addBookToDB(book) {
         var userID = firebase.auth().currentUser.uid; 
-        firebase.database().ref('users/' + userID).push({
+        firebase.database().ref('users/').child(userID).child(book.id).set({
           bookId: book.id,
           bookTitle: book.title,
           bookAuthor : book.author,
@@ -278,18 +256,44 @@ function newBook(e){
     }
 }
 
+function retrieveBooksFromDB(){
+
+        userID = firebase.auth().currentUser.uid
+        console.log(userID)
+        libraryRef = firebase.database().ref('users/' + userID)
+    libraryRef.once('value', (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          console.log(childSnapshot.key);
+
+          myLibrary.push(new Book(childSnapshot.key, 
+                                    childSnapshot.val().bookTitle, 
+                                    childSnapshot.val().bookAuthor, 
+                                    childSnapshot.val().isRead));
+
+        
+        });
+      });
+
+      displayBooks(myLibrary)
+    
+}
+
+
+
 // Display Books in Library
 function displayBooks(myLibrary){
 
     //Invite users to add Books if Library is empty 
-    if(!myLibrary.length) {
+    if(!myLibrary.length && !isUserLoggedIn) {
     page.bookTable.style.display = 'none'
-    document.querySelector('.empty-library-message').style.display = 'block'}
+    document.querySelector('.empty-library-message').style.display = 'block'
+}
 
     //Display Table
     else  {
-        document.querySelector('.empty-library-message').style.display = 'none'
-        page.bookTable.style.display = 'table'}
+
+       document.querySelector('.empty-library-message').style.display = 'none'
+        page.bookTable.style.display = 'table'
     page.bookTable.innerHTML = 
     `<thead id="table-head">
     <tr>
@@ -303,7 +307,8 @@ function displayBooks(myLibrary){
 myLibrary.forEach(book => {
     book.addRow()
 });
-
+    }
+}
 //Listen for Clicks on Remove Buttons
 document.querySelectorAll('.remove-book').forEach(button => {
     button.addEventListener('click', removeBook);
@@ -325,13 +330,14 @@ document.querySelectorAll('.read-status-btn').forEach(btn => {
     btn.addEventListener('click', toggleStatus)
     })
 
-}
+
 
 function toggleStatus(e){
     e.preventDefault()
     const bookID = e.target.parentNode.dataset.id;
     const book = myLibrary.find(x => x.id === bookID);
     const status = book.changeStatus()
+    
     localStorage.removeItem(bookID)
     localStorage.setItem(book.id, JSON.stringify(book))
     e.target.textContent = `${status ? 'Read' : 'Unread'}`
