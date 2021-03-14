@@ -81,15 +81,22 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
 
             //Welcome User and close login modal
-            showWelcomeMessage()
+            showWelcomeMessage();
             retrieveBooksFromDB();
-            displayBooks(myLibrary)
+            setTimeout(function(){
+                displayBooks(myLibrary)
+                console.log('test')
+            }, 2000)
     
         // Change login btn to Logout Button.
             page.loginLogoutBtn.innerText = 'Logout'
             isUserLoggedIn = true;
+            //Clear localStorage to avoid conflicts w Firebase DB
             localStorage.clear()
     }
+
+
+
 });
 
 page.loginModal.addEventListener('click', function(){
@@ -274,7 +281,7 @@ function retrieveBooksFromDB(){
         });
       });
 
-      displayBooks(myLibrary)
+
     
 }
 
