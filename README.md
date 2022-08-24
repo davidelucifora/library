@@ -17,8 +17,5 @@ The point of the assignment is to learn how to use objects, constructors, protot
 
 1. How Object/Constructor/Prototype inheritance and instantiation work. 
 2. How to better design and optimize apps using methods on object prototypes.
-3. How to store and retrieve data from local storage.
-4. IN PROGRESS: How to create a realtime DB using firebase
-5. IN PROGRESS: How to manage user authentication using firebase
-6. IN PROGRESS: Store user's libraries on the cloud.
+3. How to store and retrieve data to/from local storage.
 
